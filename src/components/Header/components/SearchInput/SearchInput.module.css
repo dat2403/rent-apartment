@@ -1,26 +1,26 @@
-.inputContainer{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-radius: 20px;
-    position: relative;
-    justify-items: flex-end;
-    width: 420px;
+.inputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 20px;
+  position: relative;
+  justify-items: flex-end;
+  width: 420px;
 }
-.icon{
-    position: absolute;
-    left: 20px;
+.icon {
+  position: absolute;
+  left: 20px;
 }
-.input{
-    width: 380px;
-    padding: 9px 20px 9px 50px;
-    background: inherit;
-    border-radius: inherit;
-    font-size: 1.6rem;
-    border: 0.5px solid grey;
+.input {
+  width: 380px;
+  padding: 9px 20px 9px 50px;
+  background: inherit;
+  border-radius: inherit;
+  font-size: 1.6rem;
+  border: 0.5px solid grey;
 }
 
-.input:focus{
-    outline: none !important;
-    border: 1px solid blue;
+.input:focus {
+  outline: none !important;
+  border: 1px solid blue;
 }

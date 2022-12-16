@@ -1,64 +1,62 @@
-
 .imageContainer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .profileImage {
-    width: 30px;
-    height: 30px;
-    border-radius: 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
 }
 
 .profileContainer {
-    background: white;
-    padding: 16px 24px 0 24px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
-    border-radius: 16px;
+  background: white;
+  padding: 16px 24px 0 24px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  border-radius: 16px;
 }
 
 .headerContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 8px 0 12px 0;
-    border-bottom: 1px solid lightgray;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 0 12px 0;
+  border-bottom: 1px solid lightgray;
 }
 
 .headerImage {
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
 }
 
 .headerContent {
-    margin: 0 0 0 12px;
+  margin: 0 0 0 12px;
 }
 
 .fullName {
-    font-size: 1.6rem;
-    color: #292929;
+  font-size: 1.6rem;
+  color: #292929;
 }
 
 .username {
-    font-size: 1.4rem;
-    color: #757575;
-    margin: 4px 0 0 0;
+  font-size: 1.4rem;
+  color: #757575;
+  margin: 4px 0 0 0;
 }
 
 .optionList {
-
 }
 
 .optionContainer {
-    padding: 16px 0;
-    cursor: pointer;
+  padding: 16px 0;
+  cursor: pointer;
 }
 
-.optionBorder{
-    border-bottom: 1px solid lightgray;
+.optionBorder {
+  border-bottom: 1px solid lightgray;
 }
 
 .optionTitle {
-    font-size: 1.6rem;
-    color: #757575;
+  font-size: 1.6rem;
+  color: #757575;
 }

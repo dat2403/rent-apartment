@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function usePersistedState<T>(name: string, defaultValue: T) {
   const [value, setValue] = React.useState<T>(defaultValue);
@@ -19,9 +19,8 @@ export default function usePersistedState<T>(name: string, defaultValue: T) {
   React.useEffect(() => {
     try {
       localStorage.setItem(name, JSON.stringify(value));
-    } catch {
-    }
+    } catch {}
   }, [value]);
 
   return [value, setValue];
-};
+}

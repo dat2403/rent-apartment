@@ -1,12 +1,12 @@
-.footerContainer{
-    background: transparent;
-    width: 100%;
-    /*position: absolute;*/
-    bottom: 0;
-    min-height: 300px;
+.footerContainer {
+  background: transparent;
+  width: 100%;
+  /*position: absolute;*/
+  bottom: 0;
+  min-height: 300px;
 }
 
-.text{
-    color: white;
-    font-size: 1.8rem;
+.text {
+  color: white;
+  font-size: 1.8rem;
 }

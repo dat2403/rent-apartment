@@ -1,210 +1,208 @@
 .alignRow {
-    display: flex;
-    flex-direction: row
+  display: flex;
+  flex-direction: row;
 }
-.textAlign{
-    text-align: left !important;
-    margin-top: 20px !important;
+.textAlign {
+  text-align: left !important;
+  margin-top: 20px !important;
 }
 .profileContainer {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    /*background: #333333;*/
-    height: 100vh;
-    max-width: 1100px;
-    align-items: flex-start;
-    /*justify-content: center;*/
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  /*background: #333333;*/
+  height: 100vh;
+  max-width: 1100px;
+  align-items: flex-start;
+  /*justify-content: center;*/
+  margin: 0 auto;
 }
 
 .profileHeader {
-    width: 100%;
-    position: relative;
+  width: 100%;
+  position: relative;
 }
 
 .coverImage {
-    width: 100%;
-    height: 310px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+  width: 100%;
+  height: 310px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .changeCoverImage {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: #e6f2fb;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: #e6f2fb;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .changeCoverImage:active {
-    background: lightgray !important;
+  background: lightgray !important;
 }
 
 .changeCoverImgText {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .avatarContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    position: absolute;
-    bottom: -81px;
-    left: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  position: absolute;
+  bottom: -81px;
+  left: 50px;
 }
 
 .fullName {
-    color: black;
-    font-size: 3rem;
-    margin: 0 0 25px 20px;
+  color: black;
+  font-size: 3rem;
+  margin: 0 0 25px 20px;
 }
 
-.body{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+.body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .profileContentContainer {
-    display: flex;
-    flex-direction: row;
-    /*background: #333333;*/
-    width: 100%;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 100px 30px 100px 30px;
+  display: flex;
+  flex-direction: row;
+  /*background: #333333;*/
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 100px 30px 100px 30px;
 }
 
 .label {
-    font-size: 2rem;
-    color: #333333;
-    margin: 0 0 15px 0;
+  font-size: 2rem;
+  color: #333333;
+  margin: 0 0 15px 0;
 }
 
 .contentText {
-    color: #333333;
-    font-size: 1.6rem;
+  color: #333333;
+  font-size: 1.6rem;
 }
 
 .leftScope {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .introduce {
-    background: white;
-    /*margin: 100px 0 0 0;*/
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  background: white;
+  /*margin: 100px 0 0 0;*/
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
 .recent {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .rightScope {
-    flex-grow: 2;
-    margin-left: 30px;
-    background: white;
-    padding: 20px 20px 0 20px;
-    border-radius: 20px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  flex-grow: 2;
+  margin-left: 30px;
+  background: white;
+  padding: 20px 20px 0 20px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
 .itemContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding-bottom: 20px;
-    /*padding: 20px;*/
-    margin: 0 0 30px 0;
-    border-bottom: 1px solid lightgray;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding-bottom: 20px;
+  /*padding: 20px;*/
+  margin: 0 0 30px 0;
+  border-bottom: 1px solid lightgray;
 }
-.itemWithoutBorder{
-    border: none !important;
-    margin: 0;
+.itemWithoutBorder {
+  border: none !important;
+  margin: 0;
 }
 .itemImage {
-    width: 228px;
-    height: 128px;
-    border-radius: 10px;
+  width: 228px;
+  height: 128px;
+  border-radius: 10px;
 }
 
 .itemContent {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-grow: 1;
-    /*max-width: 350px;*/
-    /*min-width: 200px;*/
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 1;
+  /*max-width: 350px;*/
+  /*min-width: 200px;*/
 }
-.itemTitle{
-    font-size: 1.8rem;
-    color: #333333;
-    width: 50%;
-    /*margin-bottom: 10px;*/
+.itemTitle {
+  font-size: 1.8rem;
+  color: #333333;
+  width: 50%;
+  /*margin-bottom: 10px;*/
 }
-.itemDescription{
-    font-size: 1.6rem;
-    color: #666666;
-    word-break: break-word;
-    margin-left: 16px;
-}
-
-.myCreatedPostContainer{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    /*flex-wrap: wrap;*/
-    width: 100%;
-    /*background: #1976d2;*/
-    min-height: 100px;
-    padding: 10px 0;
-    margin: 10px 0 0 0;
+.itemDescription {
+  font-size: 1.6rem;
+  color: #666666;
+  word-break: break-word;
+  margin-left: 16px;
 }
 
-
-.myPostItem{
-    display: flex;
-    /*flex-direction: row;*/
-    width: 100%;
-    align-items: flex-start;
-    background: #F2F3F4;
-    padding: 15px 25px;
-    margin: 10px 0;
-    border-radius: 20px;
-
+.myCreatedPostContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  /*flex-wrap: wrap;*/
+  width: 100%;
+  /*background: #1976d2;*/
+  min-height: 100px;
+  padding: 10px 0;
+  margin: 10px 0 0 0;
 }
 
-.myPostImage{
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-}
-.myPostText{
-    margin-left: 20px;
-    flex: 1;
-}
-
-.postTitle{
-    font-size: 2rem;
-    color: #292929;
+.myPostItem {
+  display: flex;
+  /*flex-direction: row;*/
+  width: 100%;
+  align-items: flex-start;
+  background: #f2f3f4;
+  padding: 15px 25px;
+  margin: 10px 0;
+  border-radius: 20px;
 }
 
-.postDescription{
-    font-size: 1.6rem;
-    color: #757575;
-    margin-top: 12px;
+.myPostImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+}
+.myPostText {
+  margin-left: 20px;
+  flex: 1;
 }
 
-.rate{
-    text-align: right;
-    align-self: center;
+.postTitle {
+  font-size: 2rem;
+  color: #292929;
+}
+
+.postDescription {
+  font-size: 1.6rem;
+  color: #757575;
+  margin-top: 12px;
+}
+
+.rate {
+  text-align: right;
+  align-self: center;
 }

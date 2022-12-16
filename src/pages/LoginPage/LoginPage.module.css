@@ -1,63 +1,62 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    background: rgb(22 24 35 / 5%);
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background: rgb(22 24 35 / 5%);
 }
-.modalContainer{
-    padding: 50px;
-    background: white;
-    border-radius: 25px;
+.modalContainer {
+  padding: 50px;
+  background: white;
+  border-radius: 25px;
 }
-.loginLogo{
-    font-size: 3rem;
-    color: black;
-    margin: 19px 0;
-    text-align: center;
+.loginLogo {
+  font-size: 3rem;
+  color: black;
+  margin: 19px 0;
+  text-align: center;
 }
-.formContainer{
-    display: flex;
-    flex-direction: column;
+.formContainer {
+  display: flex;
+  flex-direction: column;
 }
-.input{
-    width: 380px;
-    padding: 16px 16px;
-    border: solid 0.5px rgb(118, 118, 118);
-    border-radius: 10px;
-    font-size: 1.6rem;
-    background: rgb(22 24 35 / 3%);
-    margin: 12px 8px;
+.input {
+  width: 380px;
+  padding: 16px 16px;
+  border: solid 0.5px rgb(118, 118, 118);
+  border-radius: 10px;
+  font-size: 1.6rem;
+  background: rgb(22 24 35 / 3%);
+  margin: 12px 8px;
 }
 .input:focus {
-    outline: none !important;
-    border: 0.5px solid black;
-    box-shadow: 0 0 10px rgb(22 24 35 / 10%);
+  outline: none !important;
+  border: 0.5px solid black;
+  box-shadow: 0 0 10px rgb(22 24 35 / 10%);
 }
 
-.errorText{
-    color: red;
-    font-size: 1.2rem;
-    margin: 8px 12px;
+.errorText {
+  color: red;
+  font-size: 1.2rem;
+  margin: 8px 12px;
 }
 
-.checkBoxContainer{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 12px 8px;
+.checkBoxContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 12px 8px;
 }
 
-.checkBoxContainer > input{
-    margin-right: 12px;
+.checkBoxContainer > input {
+  margin-right: 12px;
 }
 
-.needRegister{
-    font-size: 1.6rem;
-    color: black;
-    margin: 12px 8px;
-    text-align: center;
-    cursor: pointer;
+.needRegister {
+  font-size: 1.6rem;
+  color: black;
+  margin: 12px 8px;
+  text-align: center;
+  cursor: pointer;
 }
-

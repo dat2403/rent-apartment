@@ -1,3 +1,6 @@
-import React from "react";
+import React from 'react';
 
-export type AppHTMLProps<T> = React.DetailedHTMLProps<React.HTMLAttributes<T>, T>
+export type AppHTMLProps<T> = React.DetailedHTMLProps<
+  React.HTMLAttributes<T>,
+  T
+>;

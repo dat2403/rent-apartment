@@ -1,9 +1,9 @@
-.layoutContainer{
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    min-height: 100vh;
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 100vh;
 }
 
-.layoutBody{
+.layoutBody {
 }

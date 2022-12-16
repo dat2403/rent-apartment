@@ -1,54 +1,50 @@
-.itemContainer{
-    background: white;
-    padding: 16px;
-    border-radius: 10px;
-    margin-top: 20px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+.itemContainer {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
-.itemCollapse{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.itemCollapse {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
-.authorAvatar{
-
-}
-
-.itemContent{
-
+.authorAvatar {
 }
 
-.comment{
-    font-size: 1.8rem;
-    color: black;
-}
-.alignRow{
-
-}
-.marginView{
-
+.itemContent {
 }
 
-.itemRate{
-    margin-top: 16px;
+.comment {
+  font-size: 1.8rem;
+  color: black;
+}
+.alignRow {
+}
+.marginView {
 }
 
-.itemDeleteAndBlock{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.itemRate {
+  margin-top: 16px;
 }
-.commentUser{
-    font-size: 1.6rem;
-    color: black;
+
+.itemDeleteAndBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.commentText{
-    margin-top: 6px;
-    color: black;
-    font-size: 1.6rem;
+.commentUser {
+  font-size: 1.6rem;
+  color: black;
 }
-.commentDate{
-    margin-top: 6px;
-    color: grey;
-    font-size: 1.4rem;
+.commentText {
+  margin-top: 6px;
+  color: black;
+  font-size: 1.6rem;
+}
+.commentDate {
+  margin-top: 6px;
+  color: grey;
+  font-size: 1.4rem;
 }
