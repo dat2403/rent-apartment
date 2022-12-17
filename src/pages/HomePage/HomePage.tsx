@@ -4,8 +4,6 @@ import { loadAllPost } from '../../api/service';
 import AppLoading from '../../components/AppLoading/AppLoading';
 import AppText from '../../components/AppText/AppText';
 import DefaultLayout from '../../components/DefaultLayout/DefaultLayout';
-import Header from '../../components/Header/Header';
-import useAuth from '../../hook/useAuth';
 import useScreenState from '../../hook/useScreenState';
 import { ApartModel } from '../../model/ApartModel';
 import ApartListItem from './components/ApartListItem';
@@ -14,9 +12,6 @@ import styles from './HomePage.module.css';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const auth = useAuth();
-  const user = auth.user;
-
   const [searchKey, setSearchKey] = useState('');
   const [priceStart, setPriceStart] = useState('');
   const [priceEnd, setPriceEnd] = useState('');
@@ -24,7 +19,6 @@ const HomePage: React.FC = () => {
   const [areaEnd, setAreaEnd] = useState('');
   const [apartList, setApartList] = useState<ApartModel[]>([]);
   const [showFilterBar, setShowFilterBar] = useState(false);
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const { setLoading, loading, error, setError } = useScreenState();
 
   const navigateToLogIn = () => {
@@ -111,7 +105,6 @@ const HomePage: React.FC = () => {
           justifyContent: 'center',
         }}
       >
-        <Header />
         <div className={styles.body}>
           <div className={`${styles.alignRow} ${styles.spaceBetween}`}>
             <AppText className={styles.listTitle}>Danh sách Nhà trọ</AppText>

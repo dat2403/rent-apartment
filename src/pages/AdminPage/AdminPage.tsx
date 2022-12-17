@@ -9,7 +9,7 @@ import {
   getReportDetail,
   loadAllPost,
 } from '../../api/service';
-import Logo from '../HomePage/components/logo1.png';
+import Logo from '../../assets/imgs/logo1.png';
 import SearchInput from '../../components/Header/components/SearchInput/SearchInput';
 import ProfileMenu from '../HomePage/components/ProfileMenu/ProfileMenu';
 import AppText from '../../components/AppText/AppText';
