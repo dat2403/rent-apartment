@@ -1,11 +1,10 @@
-import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/imgs/logo1.png';
 import useAuth from '../../hook/useAuth';
 import ProfileMenu from '../../pages/HomePage/components/ProfileMenu/ProfileMenu';
-import SearchInput from './components/SearchInput/SearchInput';
-import styles from './Header.module.css';
+// import SearchInput from './components/SearchInput/SearchInput';
+// import styles from './Header.module.css';
 import './header.css';
 
 const nav = [
@@ -28,7 +27,6 @@ const Header: React.FC = () => {
   const auth = useAuth();
   const user = auth.user;
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [searchKey, setSearchKey] = useState('');
   const [navList, setNavList] = useState(false);
 
   const navigateToLogIn = () => {
@@ -38,9 +36,11 @@ const Header: React.FC = () => {
     <>
       <header>
         <div className="container flex">
-          <div className="logo">
-            <img src={Logo} alt="" />
-          </div>
+          <Link to="/">
+            <div className="logo">
+              <img src={Logo} alt="" />
+            </div>
+          </Link>
           <div className="nav">
             <ul className={navList ? 'small' : 'flex'}>
               {nav.map((list, index) => (
