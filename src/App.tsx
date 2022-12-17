@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import PostApartPage from './pages/PostApartPage/PostApartPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import './App.css';
 
 const App: React.FC = () => {
   // const router = createBrowserRouter([

@@ -5,7 +5,7 @@ import useAuth from '../../../../hook/useAuth';
 import { useNavigate } from 'react-router-dom';
 import AppText from '../../../../components/AppText/AppText';
 import { Avatar } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
+import { lightGreen } from '@mui/material/colors';
 
 interface ProfileMenuProps {
   showProfileMenu: boolean;
@@ -63,7 +63,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
       render={(attrs) => (
         <div {...attrs} className={styles.profileContainer}>
           <div className={styles.headerContainer}>
-            <Avatar sx={{ bgcolor: deepPurple[500] }}>
+            <Avatar sx={{ bgcolor: lightGreen[500] }}>
               {user?.name.slice(0, 2).toUpperCase()}
             </Avatar>
             <div className={styles.headerContent}>
@@ -98,7 +98,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
         onClick={() => setShowProfileMenu(!showProfileMenu)}
         className={styles.imageContainer}
       >
-        <Avatar sx={{ bgcolor: deepPurple[500] }}>
+        <Avatar sx={{ bgcolor: lightGreen[500] }}>
           {user?.name.slice(0, 2).toUpperCase()}
         </Avatar>
       </div>
