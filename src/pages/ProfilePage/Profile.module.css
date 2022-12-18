@@ -236,3 +236,18 @@
 .input:focus {
   border: 1px solid grey;
 }
+
+.input {
+  display: flex;
+  flex-grow: 1;
+  padding: 8px 16px;
+  font-size: 1.6rem;
+  color: black;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+}
+
+.input:focus {
+  border: 1px solid grey;
+}

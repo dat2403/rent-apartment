@@ -25,6 +25,10 @@
   margin-top: 30px;
 }
 
+.marginTop {
+  margin-top: 30px;
+}
+
 .listContainerGrid {
   display: flex;
   flex-direction: column;

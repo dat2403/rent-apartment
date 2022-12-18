@@ -64,3 +64,12 @@
     background: whitesmoke;
     padding: 4px;
 }
+.itemViewAndEdit > div {
+    margin-right: 15px;
+    font-size: 25px;
+    cursor: pointer;
+}
+.itemViewAndEdit > div:focus {
+    background: whitesmoke;
+    padding: 4px;
+}
