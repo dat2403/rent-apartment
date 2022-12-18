@@ -9,7 +9,7 @@ import {
   getAllUsersAPI,
   loadAllPost,
 } from '../../api/service';
-import Logo from '../HomePage/components/logo1.png';
+import Logo from '../../assets/imgs/logo1.png';
 import SearchInput from '../../components/Header/components/SearchInput/SearchInput';
 import ProfileMenu from '../HomePage/components/ProfileMenu/ProfileMenu';
 import AppText from '../../components/AppText/AppText';
@@ -190,20 +190,6 @@ const AdminPage: React.FC = () => {
           justifyContent: 'center',
         }}
       >
-        <div className={styles.headerContainer}>
-          <div onClick={() => navigate('/')} id="logo_header">
-            <img src={Logo} alt="logo" height="60" />
-          </div>
-          <SearchInput
-            value={searchKey}
-            onChange={(e) => setSearchKey(e.target.value)}
-          />
-          <ProfileMenu
-            showProfileMenu={showProfileMenu}
-            clickMenuOutside={() => setShowProfileMenu(!showProfileMenu)}
-            setShowProfileMenu={() => setShowProfileMenu(!showProfileMenu)}
-          />
-        </div>
         <div className={styles.body}>
           <div>
             <div className={`${styles.alignRow} ${styles.spaceBetween}`}>
