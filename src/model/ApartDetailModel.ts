@@ -16,6 +16,7 @@ export interface Comment {
   comment: string;
   rating: number;
   created_at: Date;
+  deleted: boolean
 }
 
 export interface ApartDetailModel {

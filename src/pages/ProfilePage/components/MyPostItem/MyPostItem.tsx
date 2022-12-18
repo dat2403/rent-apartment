@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../../Profile.module.css';
 import AppText from '../../../../components/AppText/AppText';
+import StarIcon from '@mui/icons-material/Star';
 
 interface MyPostItemProps {
   imageURI?: string;
@@ -21,7 +22,17 @@ const MyPostItem: React.FunctionComponent<MyPostItemProps> = (props) => {
         </AppText>
         <AppText className={styles.postDescription}>{postDescription}</AppText>
       </div>
-      <AppText className={styles.rate}>{Math.round(rateNumber!)}/5</AppText>
+      <div className={styles.alignRow}>
+        <AppText font={'semi'} className={styles.rate}>
+          {Math.round(rateNumber!)} / 5
+        </AppText>
+        <StarIcon
+          style={{
+            fontSize: '25px',
+            color: 'orange',
+          }}
+        />
+      </div>
     </div>
   );
 };

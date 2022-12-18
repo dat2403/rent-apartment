@@ -19,8 +19,14 @@ export const authSlice = createSlice({
     _signOut() {
       return initialState;
     },
+    _saveNewProfile(state, action: PayloadAction<Partial<UserModel>>) {
+      state.user = {
+        ...state.user,
+        ...action.payload,
+      };
+    },
   },
 });
 
-export const { _signIn, _signOut } = authSlice.actions;
+export const { _signIn, _signOut, _saveNewProfile } = authSlice.actions;
 export default authSlice.reducer;

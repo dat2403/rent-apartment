@@ -7,6 +7,7 @@ import styles from './LoginPage.module.css';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import { logInAPI, signUpAPI } from '../../api/service';
+import { toast } from 'react-toastify';
 
 const LoginPage: React.FC = () => {
   const { signIn } = useAuth();
@@ -31,10 +32,30 @@ const LoginPage: React.FC = () => {
             token: resData?.access_token,
           },
         });
+        toast.success('Login successfully', {
+          position: 'bottom-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
         navigate('/');
       }
-    } catch (e) {
+    } catch (e: any) {
       console.log(e);
+      toast.error(e?.response?.data?.message, {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
     }
   };
 
@@ -57,14 +78,34 @@ const LoginPage: React.FC = () => {
         signIn({
           user: {
             ...resData?.user_info,
-            id: resData?.user_info?.email,
+            // id: resData?.user_info?.email,
             token: resData?.access_token,
           },
         });
+        toast.success('Sign up successfully', {
+          position: 'bottom-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
         navigate('/');
       }
-    } catch (e) {
+    } catch (e: any) {
       console.log(e);
+      toast.error(e?.response?.data?.message, {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import styles from '../PostApartPage/PostApartPage.module.css';
 import AppText from '../../components/AppText/AppText';
 import { Button } from '@mui/material';
@@ -7,16 +7,31 @@ import useAuth from '../../hook/useAuth';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AccessToken } from '../../api/AccessToken';
 import { editPost } from '../../api/service';
+import { showErrorToast, showSuccessToast } from '../../components/Toast/Toast';
+import usePost from '../../hook/usePost';
 
 const EditPostPage: React.FC = () => {
+  const params = useParams();
+  const { posts } = usePost();
+  const currentPost = useMemo(() => {
+    return posts.find((item) => item.id === Number(params.apartId));
+  }, [params.apartId]);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      image: currentPost?.image[0],
+      title: currentPost?.title,
+      address: currentPost?.address,
+      area: currentPost?.area,
+      price: currentPost?.price,
+      detail: currentPost?.detail,
+    },
+  });
   const auth = useAuth();
   const user = auth.user;
-  const params = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,9 +43,13 @@ const EditPostPage: React.FC = () => {
       .then((res) => {
         console.log(res);
         console.log('Edited Post successfully');
+        showSuccessToast('Edited Post successfully');
         navigate('/');
       })
-      .catch((e) => console.log(e));
+      .catch((e: any) => {
+        console.log(e);
+        showErrorToast(e?.response?.data?.message);
+      });
   };
 
   const editPostHandler = (data: any) => {
@@ -60,71 +79,38 @@ const EditPostPage: React.FC = () => {
         )}
         <input
           className={styles.input}
-          {...register('title', {
-            required: true,
-          })}
+          {...register('title')}
           name={'title'}
-          placeholder={'Tên'}
+          placeholder={'Title'}
           type={'text'}
         />
-        {errors.title?.type === 'required' && (
-          <AppText className={styles.errorText} role="alert">
-            Title is required
-          </AppText>
-        )}
         <input
           className={styles.input}
-          {...register('address', {
-            required: true,
-          })}
+          {...register('address')}
           name={'address'}
-          placeholder={'Địa chỉ'}
+          placeholder={'Address'}
           type={'text'}
         />
-        {errors.address?.type === 'required' && (
-          <AppText className={styles.errorText} role="alert">
-            Address is required
-          </AppText>
-        )}
         <input
           className={styles.input}
-          {...register('area', {
-            required: true,
-          })}
+          {...register('area')}
           name={'area'}
-          placeholder={'Diện tích'}
+          placeholder={'Area'}
           type={'text'}
         />
-        {errors.area?.type === 'required' && (
-          <AppText className={styles.errorText} role="alert">
-            Area is required
-          </AppText>
-        )}
         <input
           className={styles.input}
-          {...register('price', {
-            required: true,
-          })}
+          {...register('price')}
           name={'price'}
-          placeholder={'Giá thuê'}
+          placeholder={'Price'}
           type={'text'}
         />
-        {errors.price?.type === 'required' && (
-          <AppText className={styles.errorText} role="alert">
-            Price is required
-          </AppText>
-        )}
         <textarea
           className={styles.textArea}
-          {...register('description', { required: true, minLength: 8 })}
-          name={'description'}
-          placeholder={'Mô tả'}
+          {...register('detail')}
+          name={'detail'}
+          placeholder={'Description'}
         />
-        {errors.description?.type === 'required' && (
-          <AppText className={styles.errorText} role="alert">
-            description is required
-          </AppText>
-        )}
         <Button
           sx={{
             borderRadius: '10px',

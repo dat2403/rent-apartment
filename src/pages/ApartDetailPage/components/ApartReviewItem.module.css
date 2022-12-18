@@ -8,6 +8,10 @@
   border-radius: 10px;
   position: relative;
 }
+.deletedCmt {
+  border: 1px solid crimson;
+  opacity: 0.6;
+}
 
 .image {
   width: 60px;
@@ -33,7 +37,26 @@
 }
 
 .report {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   position: absolute;
-  bottom: 5px;
+  bottom: 10px;
   right: 10px;
+  cursor: pointer;
+}
+.deletedCmtTextWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.deletedCmtText {
+  color: crimson;
+  font-style: italic;
+  font-size: 1.4rem;
 }

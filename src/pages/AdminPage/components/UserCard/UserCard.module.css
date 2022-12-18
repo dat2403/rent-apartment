@@ -1,0 +1,39 @@
+.cardContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+    margin: 20px 0 0 0;
+    padding: 15px 20px;
+    border-radius: 15px;
+}
+
+
+.cardContent{
+    margin-left: 20px;
+    flex-grow: 1;
+}
+
+.cardTitle{
+    font-size: 2rem;
+    color: #292929;
+}
+.tagContainer{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+.roleTagName{
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+.email{
+    font-size: 1.6rem;
+    color: #757575;
+    font-style: italic;
+    margin-top: 8px;
+}

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ApartDetailModel } from '../../model/ApartDetailModel';
 
 export interface FakeApartModel {
   id: number;
@@ -34,26 +35,29 @@ function genFakeApartList() {
 export const FAKE_DATA: FakeApartModel[] = genFakeApartList();
 
 export interface PostState {
-  posts: FakeApartModel[];
+  posts: ApartDetailModel[];
 }
 
-const initialState = {
-  posts: FAKE_DATA,
+const initialState: PostState = {
+  posts: [],
 };
 
 export const postSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
-    _pushFakePost(state, action: PayloadAction<FakeApartModel>) {
-      const newPost = action.payload;
-      state.posts.unshift(newPost);
-    },
+    // _pushFakePost(state, action: PayloadAction<FakeApartModel>) {
+    //   const newPost = action.payload
+    //   state.posts.unshift(newPost)
+    // },
     _loadAll(state) {
       return state;
+    },
+    _savePost(state, action: PayloadAction<ApartDetailModel>) {
+      state.posts.unshift(action.payload);
     },
   },
 });
 
-export const { _pushFakePost, _loadAll } = postSlice.actions;
+export const { _loadAll, _savePost } = postSlice.actions;
 export default postSlice.reducer;

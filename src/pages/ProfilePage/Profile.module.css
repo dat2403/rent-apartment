@@ -1,6 +1,13 @@
 .alignRow {
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+.alignCenter {
+  align-items: center;
+}
+.spaceBetween {
+  justify-content: space-between;
 }
 .textAlign {
   text-align: left !important;
@@ -121,15 +128,16 @@
 .itemContainer {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   padding-bottom: 20px;
   /*padding: 20px;*/
-  margin: 0 0 30px 0;
+  margin: 0 0 20px 0;
   border-bottom: 1px solid lightgray;
 }
 .itemWithoutBorder {
   border: none !important;
   margin: 0;
+  padding-bottom: 0;
 }
 .itemImage {
   width: 228px;
@@ -161,8 +169,10 @@
 .myCreatedPostContainer {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  /*align-items: flex-end;*/
   /*flex-wrap: wrap;*/
+  justify-content: center;
+  align-items: center;
   width: 100%;
   /*background: #1976d2;*/
   min-height: 100px;
@@ -170,15 +180,20 @@
   margin: 10px 0 0 0;
 }
 
+.noAvailablePost {
+  color: #666666;
+  font-size: 1.8rem;
+}
+
 .myPostItem {
   display: flex;
   /*flex-direction: row;*/
   width: 100%;
-  align-items: flex-start;
+  align-items: center;
   background: #f2f3f4;
   padding: 15px 25px;
   margin: 10px 0;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 .myPostImage {
@@ -205,4 +220,19 @@
 .rate {
   text-align: right;
   align-self: center;
+}
+
+.input {
+  display: flex;
+  flex-grow: 1;
+  padding: 8px 16px;
+  font-size: 1.6rem;
+  color: black;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+}
+
+.input:focus {
+  border: 1px solid grey;
 }

@@ -12,8 +12,14 @@
 }
 .authorAvatar {
 }
+.alignRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
-.itemContent {
+.cursor {
+  cursor: pointer;
 }
 
 .comment {

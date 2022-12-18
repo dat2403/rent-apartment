@@ -7,6 +7,8 @@ import { createPost } from '../../api/service';
 import { AccessToken } from '../../api/AccessToken';
 import useAuth from '../../hook/useAuth';
 import { useNavigate } from 'react-router-dom';
+import usePost from '../../hook/usePost';
+import { showErrorToast, showSuccessToast } from '../../components/Toast/Toast';
 
 const PostApartPage: React.FC = () => {
   const {
@@ -18,6 +20,7 @@ const PostApartPage: React.FC = () => {
   const user = auth.user;
   // const {pushFakePost} = usePost()
   const navigate = useNavigate();
+  const { savePost } = usePost();
 
   useEffect(() => {
     AccessToken.value = user?.token!;
@@ -27,10 +30,15 @@ const PostApartPage: React.FC = () => {
     createPost(data, AccessToken.value!)
       .then((res) => {
         console.log(res);
+        savePost(res);
         console.log('Created Post successfully');
+        showSuccessToast('Created Post successfully!');
         navigate('/');
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+        showErrorToast(e?.response?.data?.message);
+      });
   };
 
   const postHandler = (data: any) => {
@@ -115,11 +123,11 @@ const PostApartPage: React.FC = () => {
         )}
         <textarea
           className={styles.textArea}
-          {...register('description', { required: true, minLength: 8 })}
-          name={'description'}
+          {...register('detail', { required: true, minLength: 8 })}
+          name={'detail'}
           placeholder={'Mô tả'}
         />
-        {errors.description?.type === 'required' && (
+        {errors.detail?.type === 'required' && (
           <AppText className={styles.errorText} role="alert">
             description is required
           </AppText>

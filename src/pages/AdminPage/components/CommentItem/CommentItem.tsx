@@ -2,14 +2,21 @@ import React, { useState } from 'react';
 import styles from './CommentItem.module.css';
 import AppText from '../../../../components/AppText/AppText';
 import DeleteIcon from '@mui/icons-material/Delete';
-import BlockIcon from '@mui/icons-material/Block';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { blockUserHandlerAPI, getReportDetail } from '../../../../api/service';
+import {
+  blockUserHandlerAPI,
+  deleteCommentAPI,
+  getReportDetail,
+} from '../../../../api/service';
 import useAuth from '../../../../hook/useAuth';
 import { deepPurple } from '@mui/material/colors';
 import { Avatar } from '@mui/material';
 import { toast } from 'react-toastify';
+import {
+  showErrorToast,
+  showSuccessToast,
+} from '../../../../components/Toast/Toast';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface CommentItemProps {
   id: number;
@@ -35,14 +42,21 @@ const CommentItem: React.FC<CommentItemProps> = (props) => {
     } finally {
     }
   };
-
-  const deleteHandler = () => {};
-
   const blockUserHandler = async (userId: string) => {
     try {
       const res = await blockUserHandlerAPI(userId, user?.token!);
       if (res.status === 200) {
         console.log(res);
+        toast.success('Blocked user successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
       }
     } catch (e: any) {
       console.log(e?.response?.data?.message);
@@ -56,6 +70,18 @@ const CommentItem: React.FC<CommentItemProps> = (props) => {
         progress: undefined,
         theme: 'light',
       });
+    } finally {
+    }
+  };
+
+  const deleteComment = async (commentId: string) => {
+    try {
+      const res = await deleteCommentAPI(commentId, user?.token!);
+      if (res.status === 200) {
+        showSuccessToast('Deleted comment successfully!');
+      }
+    } catch (e: any) {
+      showErrorToast(e?.response?.data?.message);
     } finally {
     }
   };
@@ -82,44 +108,26 @@ const CommentItem: React.FC<CommentItemProps> = (props) => {
             }}
           >
             {!showDetail ? (
-              <VisibilityIcon
-                style={{
-                  fontSize: '25px',
-                  color: '#1976d2',
-                  marginRight: '16px',
-                }}
-              />
+              <div className={`${styles.alignRow} ${styles.cursor}`}>
+                <AppText>Show detail</AppText>
+                <ExpandMoreIcon
+                  style={{
+                    fontSize: '25px',
+                    cursor: 'pointer',
+                  }}
+                />
+              </div>
             ) : (
-              <VisibilityOffIcon
-                style={{
-                  fontSize: '25px',
-                  color: '#1976d2',
-                  marginRight: '16px',
-                }}
-              />
+              <div className={`${styles.alignRow} ${styles.cursor}`}>
+                <AppText>Collapse</AppText>
+                <ExpandLessIcon
+                  style={{
+                    fontSize: '25px',
+                    cursor: 'pointer',
+                  }}
+                />
+              </div>
             )}
-          </div>
-          <div onClick={deleteHandler}>
-            <DeleteIcon
-              style={{
-                fontSize: '25px',
-                color: 'red',
-                marginRight: '16px',
-              }}
-            />
-          </div>
-          <div
-            onClick={async () => {
-              await blockUserHandler(detailComment?.comment?.user?.id);
-            }}
-          >
-            <BlockIcon
-              style={{
-                fontSize: '25px',
-                color: 'red',
-                marginRight: '16px',
-              }}
-            />
           </div>
         </div>
       </div>
@@ -128,20 +136,27 @@ const CommentItem: React.FC<CommentItemProps> = (props) => {
           style={{
             display: 'flex',
             flexDirection: 'row',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             marginTop: '20px',
-            background: 'red',
+            background: 'whitesmoke',
             padding: '10px',
             borderRadius: '8px',
           }}
         >
           {/*<AppText>Comment: </AppText>*/}
-          <Avatar sx={{ bgcolor: deepPurple[500] }}>
+          <Avatar
+            sx={{
+              bgcolor: deepPurple[500],
+              width: '50px',
+              height: '50px',
+            }}
+          >
             {detailComment?.comment?.user?.name.slice(0, 2).toUpperCase()}
           </Avatar>
           <div
             style={{
               marginLeft: '15px',
+              flexGrow: 1,
             }}
           >
             <AppText font={'semi'} className={styles.commentUser}>
@@ -155,6 +170,17 @@ const CommentItem: React.FC<CommentItemProps> = (props) => {
                 detailComment?.comment?.created_at
               ).toLocaleDateString()}
             </AppText>
+          </div>
+
+          <div onClick={async () => deleteComment(detailComment?.comment?.id)}>
+            <DeleteIcon
+              style={{
+                fontSize: '25px',
+                color: 'red',
+                marginRight: '16px',
+                cursor: 'pointer',
+              }}
+            />
           </div>
         </div>
       )}

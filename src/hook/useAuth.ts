@@ -1,5 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { _signIn, _signOut, AuthState } from '../store/slice/authSlide';
+import {
+  _saveNewProfile,
+  _signIn,
+  _signOut,
+  AuthState,
+} from '../store/slice/authSlide';
+import UserModel from '../model/UserModel';
 
 export default function useAuth() {
   const dispatch = useAppDispatch();
@@ -11,6 +17,14 @@ export default function useAuth() {
     },
     signOut() {
       dispatch(_signOut());
+    },
+    saveNewProfile(newInfo: UserModel) {
+      dispatch(
+        _saveNewProfile({
+          ...authState.user,
+          ...newInfo,
+        })
+      );
     },
     ...authState,
   };

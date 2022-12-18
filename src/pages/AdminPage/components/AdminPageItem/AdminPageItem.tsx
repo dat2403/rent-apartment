@@ -48,17 +48,16 @@ const AdminPageItem: React.FunctionComponent<AdminPageItemProps> = (props) => {
         <div onClick={viewHandler}>
           <VisibilityIcon
             style={{
-              fontSize: '25px',
               color: '#1976d2',
-              marginRight: '16px',
+              fontSize: '25px',
             }}
           />
         </div>
         <div onClick={onDelete}>
           <DeleteIcon
             style={{
-              fontSize: '25px',
               color: 'red',
+              fontSize: '25px',
             }}
           />
         </div>

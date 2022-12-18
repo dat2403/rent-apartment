@@ -6,10 +6,10 @@ import { ApartModel } from '../../model/ApartModel';
 import {
   deletePostAPI,
   getAllReport,
-  getReportDetail,
+  getAllUsersAPI,
   loadAllPost,
 } from '../../api/service';
-import Logo from '../../assets/imgs/logo1.png';
+import Logo from '../HomePage/components/logo1.png';
 import SearchInput from '../../components/Header/components/SearchInput/SearchInput';
 import ProfileMenu from '../HomePage/components/ProfileMenu/ProfileMenu';
 import AppText from '../../components/AppText/AppText';
@@ -20,6 +20,9 @@ import CommentItem from './components/CommentItem/CommentItem';
 import useScreenState from '../../hook/useScreenState';
 import AppLoading from '../../components/AppLoading/AppLoading';
 import { toast } from 'react-toastify';
+import { showErrorToast } from '../../components/Toast/Toast';
+import UserModel from '../../model/UserModel';
+import UserCard from './components/UserCard/UserCard';
 
 const AdminPage: React.FC = () => {
   const navigate = useNavigate();
@@ -33,10 +36,12 @@ const AdminPage: React.FC = () => {
   // const [areaEnd, setAreaEnd] = useState("")
   const [apartList, setApartList] = useState<ApartModel[]>([]);
   const [reports, setReports] = useState<any[]>([]);
+  const [usersList, setUsersList] = useState<UserModel[]>([]);
   // const [showFilterBar, setShowFilterBar] = useState(false)
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showListApart, setShowListApart] = useState(true);
   const [showReportComment, setShowReportComment] = useState(true);
+  const [showAllUsers, setShowAllUsers] = useState(false);
   const [needRefresh, setNeedRefresh] = useState(false);
   const { loading, setLoading, error, setError } = useScreenState();
 
@@ -50,9 +55,7 @@ const AdminPage: React.FC = () => {
       const token = user?.token;
       const res = await getAllReport(token!);
       if (res.status === 200) {
-        console.log('HTD', res.data);
         setReports(res.data);
-        // console.log(reports)
       }
     } catch (e: any) {
       console.log(e?.response?.data?.message);
@@ -61,19 +64,26 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  const fetchReportDetail = async (reportId: string) => {
+  const getAllUsers = async () => {
     try {
-      const token = user?.token;
-      const res = await getReportDetail(reportId, token!);
-      if (res.status === 200) {
+      setLoading(true);
+      const res = await getAllUsersAPI({ searchValue: '' }, user?.token!);
+      if (res.status === 201) {
+        // console.log(res)
+        setUsersList(res.data);
       }
-    } catch (e) {
+    } catch (e: any) {
+      console.log(e);
+      showErrorToast(e?.response?.data?.message);
     } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    Promise.all([loadHomePageData(), fetchAllReports()]).finally(() => {});
+    Promise.all([loadHomePageData(), fetchAllReports(), getAllUsers()]).finally(
+      () => {}
+    );
     // loadHomePageData().finally(() => {
     // })
     // fetchAllReports().finally(() => {})
@@ -193,33 +203,6 @@ const AdminPage: React.FC = () => {
             clickMenuOutside={() => setShowProfileMenu(!showProfileMenu)}
             setShowProfileMenu={() => setShowProfileMenu(!showProfileMenu)}
           />
-          {/* {user ? (
-            <>
-              <ProfileMenu
-                showProfileMenu={showProfileMenu}
-                clickMenuOutside={() => setShowProfileMenu(!showProfileMenu)}
-                setShowProfileMenu={() => setShowProfileMenu(!showProfileMenu)}
-              />
-            </>
-          ) : (
-            <Button
-              onClick={navigateToLogIn}
-              sx={{
-                borderRadius: '20px',
-                padding: '6px 20px',
-                alignSelf: 'center',
-              }}
-              variant="contained"
-              type={'button'}
-              style={{
-                fontSize: '14px',
-                textTransform: 'none',
-                justifySelf: 'flex-end',
-              }}
-            >
-              Log in
-            </Button>
-          )} */}
         </div>
         <div className={styles.body}>
           <div>
@@ -227,19 +210,21 @@ const AdminPage: React.FC = () => {
               <AppText className={styles.listTitle}>Danh sách Nhà trọ</AppText>
               <div
                 onClick={() => setShowListApart((prev) => !prev)}
-                className={styles.alignRow}
+                className={`${styles.alignRow} ${styles.cursorPointer}`}
               >
                 <AppText>{showListApart ? 'Thu gọn' : 'Mở rộng'}</AppText>
                 {showListApart ? (
                   <ExpandLessIcon
                     style={{
                       fontSize: '30px',
+                      cursor: 'pointer',
                     }}
                   />
                 ) : (
                   <ExpandMoreIcon
                     style={{
                       fontSize: '30px',
+                      cursor: 'pointer',
                     }}
                   />
                 )}
@@ -264,25 +249,29 @@ const AdminPage: React.FC = () => {
           </div>
 
           <div>
-            <div className={`${styles.alignRow} ${styles.spaceBetween}`}>
+            <div
+              className={`${styles.alignRow} ${styles.spaceBetween} ${styles.marginTop}`}
+            >
               <AppText className={styles.listTitle}>
                 Danh sách Report Comment
               </AppText>
               <div
                 onClick={() => setShowReportComment((prev) => !prev)}
-                className={styles.alignRow}
+                className={`${styles.alignRow} ${styles.cursorPointer}`}
               >
                 <AppText>{showReportComment ? 'Thu gọn' : 'Mở rộng'}</AppText>
                 {showReportComment ? (
                   <ExpandLessIcon
                     style={{
                       fontSize: '30px',
+                      cursor: 'pointer',
                     }}
                   />
                 ) : (
                   <ExpandMoreIcon
                     style={{
                       fontSize: '30px',
+                      cursor: 'pointer',
                     }}
                   />
                 )}
@@ -293,12 +282,49 @@ const AdminPage: React.FC = () => {
                 {reports?.map((item) => {
                   return (
                     <CommentItem
+                      // onClick={async () => {
+                      //     await deleteComment((item?.id!).toString())
+                      // }}
                       key={item.id}
                       id={item.id}
                       reporter={item.reporter.name}
                       createdAt={item.created_at}
                     />
                   );
+                })}
+              </div>
+            )}
+
+            <div
+              className={`${styles.alignRow} ${styles.spaceBetween} ${styles.marginTop}`}
+            >
+              <AppText className={styles.listTitle}>Danh sách User</AppText>
+              <div
+                onClick={() => setShowAllUsers((prev) => !prev)}
+                className={`${styles.alignRow} ${styles.cursorPointer}`}
+              >
+                <AppText>{showAllUsers ? 'Thu gọn' : 'Mở rộng'}</AppText>
+                {showAllUsers ? (
+                  <ExpandLessIcon
+                    style={{
+                      fontSize: '30px',
+                      cursor: 'pointer',
+                    }}
+                  />
+                ) : (
+                  <ExpandMoreIcon
+                    style={{
+                      fontSize: '30px',
+                      cursor: 'pointer',
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+            {showAllUsers && (
+              <div>
+                {usersList?.map((item) => {
+                  return <UserCard item={item} />;
                 })}
               </div>
             )}

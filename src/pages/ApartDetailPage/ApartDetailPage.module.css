@@ -11,6 +11,7 @@
   flex-direction: column;
   align-items: center;
   background: whitesmoke;
+  min-height: 100vh;
 }
 .contentContainer {
   background: white;
@@ -35,8 +36,8 @@
   row-gap: 20px;
 }
 .image {
-  width: 250px;
-  height: 200px;
+  width: 350px;
+  height: 280px;
 }
 
 .info {
@@ -71,6 +72,7 @@
 }
 
 .reviewContainer {
+  flex: 1;
   background: white;
   width: 70%;
   padding: 20px;

@@ -19,14 +19,21 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
   const navigate = useNavigate();
 
   const showCreatePostButton = useMemo(() => {
-    return user?.role === 'SELLER' || user?.role === 'ADMIN';
+    return user?.role === 'SELLER';
+  }, [user?.role]);
+
+  const showAdminPage = useMemo(() => {
+    return user?.role === 'ADMIN';
   }, [user?.role]);
 
   const profileMenu = useMemo(() => {
-    if (!showCreatePostButton) {
-      return PROFILE_OPTIONS.filter((item) => item.id !== 2 && item.id !== 3);
+    if (showCreatePostButton) {
+      return PROFILE_OPTIONS.filter((item) => item.id !== 3);
     }
-    return PROFILE_OPTIONS;
+    if (showAdminPage) {
+      return PROFILE_OPTIONS.filter((item) => item.id !== 2);
+    }
+    return PROFILE_OPTIONS.filter((item) => item.id !== 2 && item.id !== 3);
   }, [showCreatePostButton]);
 
   const navigateToPostApart = useCallback(() => {
@@ -35,7 +42,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
 
   const navigateHandler = (option: string) => {
     switch (option) {
-      case 'Trang cá nhân': {
+      case 'Profile': {
         navigate(`/profile`);
         break;
       }
@@ -43,12 +50,13 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
         navigate(`/admin`);
         break;
       }
-      case 'Đăng bài': {
+      case 'Create Post': {
         navigateToPostApart();
         break;
       }
-      case 'Đăng xuất': {
+      case 'Logout': {
         signOut();
+        navigate('/');
         break;
       }
     }
@@ -64,7 +72,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
         <div {...attrs} className={styles.profileContainer}>
           <div className={styles.headerContainer}>
             <Avatar sx={{ bgcolor: lightGreen[500] }}>
-              {user?.name.slice(0, 2).toUpperCase()}
+              {user?.name?.slice(0, 2).toUpperCase()}
             </Avatar>
             <div className={styles.headerContent}>
               <AppText font={'semi'} className={styles.fullName}>
@@ -77,6 +85,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
             {profileMenu.map((item) => {
               return (
                 <div
+                  key={item.id}
                   onClick={() => navigateHandler(item.optionTitle)}
                   className={
                     item.id !== 4
@@ -99,7 +108,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
         className={styles.imageContainer}
       >
         <Avatar sx={{ bgcolor: lightGreen[500] }}>
-          {user?.name.slice(0, 2).toUpperCase()}
+          {user?.name?.slice(0, 2).toUpperCase()}
         </Avatar>
       </div>
     </Tippy>
@@ -111,12 +120,12 @@ export default ProfileMenu;
 const PROFILE_OPTIONS = [
   {
     id: 1,
-    optionTitle: 'Trang cá nhân',
+    optionTitle: 'Profile',
     link: '/profile',
   },
   {
     id: 2,
-    optionTitle: 'Đăng bài',
+    optionTitle: 'Create Post',
     link: '/post-apart',
   },
   {
@@ -126,7 +135,7 @@ const PROFILE_OPTIONS = [
   },
   {
     id: 4,
-    optionTitle: 'Đăng xuất',
+    optionTitle: 'Logout',
     link: '/',
   },
 ];

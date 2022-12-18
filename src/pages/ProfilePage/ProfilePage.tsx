@@ -3,24 +3,30 @@ import styles from './Profile.module.css';
 import AppText from '../../components/AppText/AppText';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import GroupIcon from '@mui/icons-material/Group';
-import { Avatar } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
 import useAuth from '../../hook/useAuth';
-import { loadAllPost } from '../../api/service';
+import { loadAllPost, updateProfile } from '../../api/service';
 import { ApartModel } from '../../model/ApartModel';
 import ProfileInfoItem from './components/ProfileInfoItem/ProfileInfoItem';
 import MyPostItem from './components/MyPostItem/MyPostItem';
 import { useNavigate } from 'react-router-dom';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import useScreenState from '../../hook/useScreenState';
 import AppLoading from '../../components/AppLoading/AppLoading';
+import { showErrorToast, showSuccessToast } from '../../components/Toast/Toast';
 
 export const FAKE_URL =
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlXVon19r-Jyb2zyJhuRGCC6CFHBdk8iaHAA&usqp=CAU';
 const ProfilePage = () => {
-  const { user } = useAuth();
+  const { user, saveNewProfile } = useAuth();
   const navigate = useNavigate();
   const [dataList, setDataList] = useState<ApartModel[]>([]);
   const { setLoading, loading, error, setError } = useScreenState();
+  const [editing, setEditing] = useState(false);
+  const [name, setName] = useState(user?.name);
+  const [phone, setPhone] = useState(user?.phone);
+  const [address, setAddress] = useState(user?.address);
 
   const userRole = useMemo(() => {
     switch (user?.role) {
@@ -35,6 +41,23 @@ const ProfilePage = () => {
       }
     }
   }, [user?.role]);
+
+  async function updateProfileUser(newInfo: any) {
+    const token = user?.token;
+    try {
+      setLoading(true);
+      const res = await updateProfile(newInfo, token!);
+      if (res.status === 201) {
+        console.log(res);
+        saveNewProfile(res.data);
+        showSuccessToast('Updated profile successfully!');
+      }
+    } catch (e: any) {
+      showErrorToast(e?.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const fetchData: () => Promise<void> = async () => {
     try {
@@ -90,7 +113,7 @@ const ProfilePage = () => {
               fontSize: 50,
             }}
           >
-            {user?.name.toUpperCase().slice(0, 2)}
+            {user?.name?.toUpperCase().slice(0, 2)}
           </Avatar>
           <AppText font={'semi'} className={styles.fullName}>
             {user?.name}
@@ -128,26 +151,109 @@ const ProfilePage = () => {
           </div>
 
           <div className={styles.rightScope}>
-            <AppText font={'bold'} className={styles.label}>
-              Thông tin chi tiết
-            </AppText>
+            <div
+              className={`${styles.alignRow} ${styles.alignCenter} ${styles.spaceBetween}`}
+            >
+              <AppText font={'bold'} className={styles.label}>
+                Thông tin chi tiết
+              </AppText>
+              <div onClick={() => setEditing(true)}>
+                {!editing && (
+                  <ModeEditIcon
+                    style={{
+                      fontSize: '25px',
+                      cursor: 'pointer',
+                    }}
+                  />
+                )}
+              </div>
+            </div>
             <div
               style={{
                 background: '#F2F3F4',
                 padding: '20px',
-                borderRadius: '20px',
+                borderRadius: '10px',
               }}
             >
-              <ProfileInfoItem title={'Tên người dùng'} content={user?.name} />
-              <ProfileInfoItem title={'Email'} content={user?.email} />
-              <ProfileInfoItem title={'Số điện thoại'} content={user?.phone} />
-              <ProfileInfoItem title={'Địa chỉ'} content={user?.address} />
+              <ProfileInfoItem
+                onChangeInput={(e) => setName(e.target.value)}
+                editing={editing}
+                title={'Tên người dùng'}
+                content={name}
+              />
+              <ProfileInfoItem
+                editing={false}
+                onChangeInput={() => {}}
+                title={'Email'}
+                content={user?.email}
+              />
+              <ProfileInfoItem
+                editing={editing}
+                onChangeInput={(e) => setPhone(e.target.value)}
+                title={'Số điện thoại'}
+                content={phone}
+              />
+              <ProfileInfoItem
+                editing={editing}
+                title={'Địa chỉ'}
+                onChangeInput={(e) => setAddress(e.target.value)}
+                content={address}
+              />
               <ProfileInfoItem
                 itemContainerStyle={styles.itemWithoutBorder}
+                editing={false}
+                onChangeInput={() => {}}
                 title={'Loại tài khoản'}
                 content={userRole}
               />
             </div>
+
+            {editing && (
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  marginTop: '25px',
+                }}
+              >
+                <Button
+                  onClick={() => {
+                    //TODO call API
+                    setEditing(false);
+                  }}
+                  style={{
+                    fontSize: '1.4rem',
+                    textTransform: 'capitalize',
+                    borderRadius: '8px',
+                    marginRight: '10px',
+                  }}
+                  color={'warning'}
+                  variant={'outlined'}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={async () => {
+                    //TODO call API
+                    setEditing(false);
+                    await updateProfileUser({
+                      name: name,
+                      phone: phone,
+                      address: address,
+                    });
+                  }}
+                  style={{
+                    fontSize: '1.4rem',
+                    textTransform: 'capitalize',
+                    borderRadius: '8px',
+                  }}
+                  variant={'outlined'}
+                >
+                  Save changes
+                </Button>
+              </div>
+            )}
 
             <AppText
               font={'bold'}
@@ -156,17 +262,23 @@ const ProfilePage = () => {
               Nhà đã đăng
             </AppText>
             <div className={styles.myCreatedPostContainer}>
-              {dataList.slice(0, 5).map((item) => {
-                return (
-                  <MyPostItem
-                    onClick={() => navigate(`/apart-detail/${item.id}`)}
-                    imageURI={item?.image[0]}
-                    postTitle={item?.title}
-                    postDescription={item?.detail}
-                    rateNumber={item?.total_rating}
-                  />
-                );
-              })}
+              {dataList.length > 0 ? (
+                dataList.slice(0, 5).map((item) => {
+                  return (
+                    <MyPostItem
+                      onClick={() => navigate(`/apart-detail/${item.id}`)}
+                      imageURI={item?.image[0]}
+                      postTitle={item?.title}
+                      postDescription={item?.detail}
+                      rateNumber={item?.total_rating}
+                    />
+                  );
+                })
+              ) : (
+                <AppText className={styles.noAvailablePost}>
+                  No posts available
+                </AppText>
+              )}
             </div>
           </div>
         </div>
