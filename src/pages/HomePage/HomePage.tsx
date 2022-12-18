@@ -8,6 +8,7 @@ import useScreenState from '../../hook/useScreenState';
 import { ApartModel } from '../../model/ApartModel';
 import ApartListItem from './components/ApartListItem';
 import FilterMenu from './components/FilterMenu/FilterMenu';
+import Posts from './components/Posts/Posts';
 import styles from './HomePage.module.css';
 
 const HomePage: React.FC = () => {
@@ -108,6 +109,7 @@ const HomePage: React.FC = () => {
         <div className={styles.body}>
           <div className={`${styles.alignRow} ${styles.spaceBetween}`}>
             <AppText className={styles.listTitle}>Danh sách Nhà trọ</AppText>
+
             <FilterMenu
               showFilterMenu={showFilterBar}
               clickMenuOutside={() => {
@@ -134,7 +136,7 @@ const HomePage: React.FC = () => {
               }}
             />
           </div>
-          <div className={styles.listContainerGrid}>
+          {/* <div className={styles.listContainerGrid}>
             {apartList?.map((item) => {
               return (
                 <ApartListItem
@@ -146,7 +148,8 @@ const HomePage: React.FC = () => {
                 />
               );
             })}
-          </div>
+          </div> */}
+          <Posts listApart={apartList} />
         </div>
       </div>
     </DefaultLayout>

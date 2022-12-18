@@ -1,0 +1,20 @@
+.rounded {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.posts .text {
+  padding: 30px;
+}
+
+.posts p {
+  color: #72809d;
+}
+
+.posts .price {
+  padding: 10px 30px;
+}
+
+.red {
+  color: red;
+}
