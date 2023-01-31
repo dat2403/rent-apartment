@@ -9,18 +9,23 @@ import {
 import { purple } from '@mui/material/colors';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { logInAPI, signUpAPI } from '../../api/service';
+import { loginAPI, signupAPI } from '../../api/auth';
 import BgLogin from '../../assets/imgs/bglogin.jpg';
 import Logo from '../../assets/imgs/logo.png';
-import useAuth from '../../hook/useAuth';
+import {
+  endLoading,
+  selectAuthLoading,
+  signIn,
+  startLoading,
+} from '../../redux/slices/authSlice';
 import { EMAIL_REGEX } from '../../utils/utils';
 import { CustomButton, Input, Label, SubmitBtn } from './styled';
 
 const Login: React.FC = () => {
-  const { signIn } = useAuth();
-  const navigate = useNavigate();
+  const loading = useSelector(selectAuthLoading);
   const {
     register,
     handleSubmit,
@@ -29,7 +34,8 @@ const Login: React.FC = () => {
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -40,96 +46,45 @@ const Login: React.FC = () => {
   };
 
   const loginHandler = async (data: any) => {
+    dispatch(startLoading());
     try {
-      setIsLoading(true);
-      const res = await logInAPI(data?.email, data?.password);
-      setIsLoading(false);
-      console.log({ res });
-      const resData = res.data;
-      if (res.status === 201) {
-        signIn({
-          user: {
-            ...resData?.user_info,
-            token: resData?.access_token,
-          },
-        });
-        toast.success('Login successfully', {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-        });
+      const res = await loginAPI(data?.email, data?.password);
+      if (res) {
+        console.log(res);
+        localStorage.setItem('accessToken', res.data.access_token);
+        dispatch(signIn(res.data.user_info));
+        toast.success('Đăng nhập thành công!');
         navigate('/');
       }
-    } catch (e: any) {
-      console.log(e);
-      setIsLoading(false);
-      toast.error(e?.response?.data?.message, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    } finally {
+      dispatch(endLoading());
     }
   };
 
   const registerHandler = async (data: any) => {
-    let role: string | undefined = undefined;
-    if (data?.seller) {
-      role = 'SELLER';
-    }
+    dispatch(startLoading());
     try {
-      setIsLoading(true);
-      const res = await signUpAPI({
+      const res = await signupAPI({
         name: data?.name,
         email: data?.email,
         password: data?.password,
-        address: data?.address,
-        phone: data?.phone,
-        role: role,
+        role: data?.seller || undefined,
       });
-      setIsLoading(false);
-      const resData = res.data;
-      if (res.status === 201) {
-        signIn({
-          user: {
-            ...resData?.user_info,
-            token: resData?.access_token,
-          },
-        });
-        toast.success('Sign up successfully', {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-        });
+      if (res) {
+        console.log(res);
+        localStorage.setItem('accessToken', res.data.access_token);
+        dispatch(signIn(res.data.user_info));
+        toast.success('Đăng ký thành công!');
         navigate('/');
       }
-    } catch (e: any) {
-      console.log(e);
-      setIsLoading(false);
-      toast.error(e?.response?.data?.message, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    } finally {
+      dispatch(endLoading());
     }
   };
 
@@ -175,21 +130,21 @@ const Login: React.FC = () => {
           }
         >
           <Typography fontSize={30} fontWeight={600}>
-            {isSignUp ? 'Sign Up' : 'Sign In'}
+            {isSignUp ? 'Đăng ký' : 'Đăng nhập'}
           </Typography>
           <Typography fontSize={14} sx={{ marginBottom: '20px' }}>
-            {isSignUp ? 'Already have an account? ' : "Don't have an account? "}
+            {isSignUp ? 'Đã có tài khoản? ' : 'Chưa có tài khoản? '}
             <CustomButton
               onClick={() => {
                 reset();
                 setIsSignUp((prev) => !prev);
               }}
             >
-              {isSignUp ? 'Sign In' : 'Sign Up'}
+              {isSignUp ? 'Đăng nhập' : 'Đăng ký'}
             </CustomButton>
           </Typography>
 
-          <Label>Email Address</Label>
+          <Label>Địa chỉ email</Label>
           <Input
             size="small"
             error={!!errors.email}
@@ -200,11 +155,11 @@ const Login: React.FC = () => {
             })}
             fullWidth
             helperText={
-              errors.email?.type === 'required' && 'Email is required'
+              errors.email?.type === 'required' && 'Bạn chưa nhập email'
             }
           />
 
-          <Label>Password</Label>
+          <Label>Mật khẩu</Label>
           <Input
             size="small"
             {...register('password', { required: true, minLength: 8 })}
@@ -213,9 +168,9 @@ const Login: React.FC = () => {
             error={!!errors.password}
             helperText={
               errors.password?.type === 'required'
-                ? 'Password is required'
+                ? 'Bạn chưa nhập mật khẩu'
                 : errors.password?.type === 'minLength' &&
-                  'Password must be at least 8 characters'
+                  'Mật khẩu cần có tối thiêu 8 ký tự'
             }
             InputProps={{
               endAdornment: (
@@ -232,7 +187,7 @@ const Login: React.FC = () => {
           />
           {isSignUp && (
             <>
-              <Label>Full Name</Label>
+              <Label>Họ và tên</Label>
               <Input
                 size="small"
                 type="text"
@@ -240,7 +195,7 @@ const Login: React.FC = () => {
                 {...register('name', { required: true })}
                 fullWidth
                 helperText={
-                  errors.name?.type === 'required' && 'Full name is required'
+                  errors.name?.type === 'required' && 'Bạn chưa nhập họ tên'
                 }
               />
 
@@ -252,11 +207,11 @@ const Login: React.FC = () => {
                 {...register('address', { required: true })}
                 fullWidth
                 helperText={
-                  errors.address?.type === 'required' && 'Address is required'
+                  errors.address?.type === 'required' && 'Bạn chưa nhập địa chỉ'
                 }
               />
 
-              <Label>Phone Number</Label>
+              <Label>Số điện thoại</Label>
               <Input
                 size="small"
                 type="text"
@@ -265,12 +220,12 @@ const Login: React.FC = () => {
                 fullWidth
                 helperText={
                   errors.phone?.type === 'required' &&
-                  'Phone number is required'
+                  'Bạn chưa nhập số điện thoại'
                 }
               />
 
               <Label sx={{ display: 'inline-block' }}>
-                Are you a landlord?
+                Bạn có phải là chủ nhà không?
               </Label>
               <Checkbox
                 {...register('seller')}
@@ -285,12 +240,12 @@ const Login: React.FC = () => {
             </>
           )}
           <SubmitBtn
-            loading={isLoading}
+            loading={loading}
             loadingIndicator="Loading..."
             type="submit"
             variant="contained"
           >
-            {isSignUp ? 'Sign Up' : 'Sign In'}
+            {isSignUp ? 'Đăng ký' : 'Đăng nhập'}
           </SubmitBtn>
           {!isSignUp && (
             <CustomButton
@@ -298,7 +253,7 @@ const Login: React.FC = () => {
                 marginTop: '20px',
               }}
             >
-              Forgot your password?
+              Quên mật khẩu?
             </CustomButton>
           )}
         </form>

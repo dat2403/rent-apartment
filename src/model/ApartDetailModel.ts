@@ -14,12 +14,12 @@ export interface Comment {
   apatoId: number;
   userId: number;
   user: {
-    name: string
-  }
+    name: string;
+  };
   comment: string;
   rating: number;
   created_at: Date;
-  deleted: boolean
+  deleted: boolean;
 }
 
 export interface ApartDetailModel {
@@ -35,4 +35,5 @@ export interface ApartDetailModel {
   created_at: Date;
   creator: CommentCreator;
   comments: Comment[];
+  tags: number[];
 }

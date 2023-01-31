@@ -13,36 +13,19 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
-
-export interface TagData {
-  id: number;
-  label: string;
-}
+import React, { Dispatch, SetStateAction } from 'react';
+import { TagData } from '../../pages/HomePage/HomePage';
 
 const DistrictList = [
-  { value: 'all', label: 'All' },
-  { value: 'CG', label: 'Cầu Giấy' },
-  { value: 'HBT', label: 'Hai Bà Trưng' },
+  { value: 'all', label: 'Tất cả' },
+  { value: 'Cau Giay', label: 'Cầu Giấy' },
+  { value: 'Hai Ba Trung', label: 'Hai Bà Trưng' },
 ];
 
 const UniversityList = [
-  { value: 'all', label: 'All' },
-  { value: 'HUST', label: 'Hanoi University of Science and Technology' },
-  { value: 'VNUH', label: 'Vietnam National University - Hanoi' },
-];
-
-const tagsList = [
-  { id: 1, label: 'Tiện nghi' },
-  { id: 2, label: 'Giá rẻ' },
-  { id: 3, label: 'Tối giản' },
-  { id: 4, label: 'Cho phép thú nuôi' },
-  { id: 5, label: 'Yên Tĩnh' },
-  { id: 6, label: 'Có nơi để xe' },
-  { id: 7, label: 'Hiện đại' },
-  { id: 8, label: 'Phòng mới' },
-  { id: 9, label: 'Phòng nhiều người' },
-  { id: 10, label: 'Phòng đơn' },
+  { value: 'all', label: 'Tất cả' },
+  { value: 'HUST', label: 'Đại học Bách khoa Hà Nội' },
+  { value: 'VNU', label: 'Đại học Quốc Gia Hà Nội' },
 ];
 
 export const Input = styled(TextField)({
@@ -64,28 +47,35 @@ export const Input = styled(TextField)({
 
 interface FilterMenuProps {
   priceStart: string | null;
-  priceEnd: string |null;
-  setPriceStart: (priceStart: string|null) => void;
-  setPriceEnd: (priceEnd: string|null) => void;
-  areaStart: string|null;
-  setAreaStart: (areaStart: string|null) => void;
-  areaEnd: string|null;
-  setAreaEnd: (areaEnd: string|null) => void;
+  priceEnd: string | null;
+  setPriceStart: (priceStart: string | null) => void;
+  setPriceEnd: (priceEnd: string | null) => void;
+  areaStart: string | null;
+  setAreaStart: (areaStart: string | null) => void;
+  areaEnd: string | null;
+  setAreaEnd: (areaEnd: string | null) => void;
+  district: string | null;
+  setDistrict: (district: string) => void;
+  university: string | null;
+  setUniversity: (university: string) => void;
   filterHandler: () => Promise<void>;
+  tags: TagData[];
+  setTags: Dispatch<SetStateAction<TagData[]>>;
+  selectedTags: TagData[];
+  setSelectedTags: Dispatch<SetStateAction<TagData[]>>;
 }
 
 const FilterMenu: React.FC<FilterMenuProps> = (props) => {
-  const [tags, setTags] = React.useState<TagData[]>(tagsList);
-  const [selectedTags, setSelectedTags] = React.useState<TagData[]>([]);
-
   const handleAdd = (tag: TagData) => () => {
-    setSelectedTags((tags) => [...tags, tag]);
-    setTags((tags) => tags.filter((t) => t.id !== tag.id));
+    props.setSelectedTags((prev: TagData[]) => [...prev, tag]);
+    props.setTags((tags: TagData[]) => tags.filter((t) => t.id !== tag.id));
   };
 
   const handleDelete = (tag: TagData) => () => {
-    setSelectedTags((tags) => tags.filter((t) => t.id !== tag.id));
-    setTags((tags) => [...tags, tag]);
+    props.setSelectedTags((tags: TagData[]) =>
+      tags.filter((t) => t.id !== tag.id)
+    );
+    props.setTags((prev: TagData[]) => [...prev, tag]);
   };
 
   return (
@@ -200,7 +190,14 @@ const FilterMenu: React.FC<FilterMenuProps> = (props) => {
         <Typography fontSize={14} variant="h6" fontWeight={400}>
           Quận
         </Typography>
-        <Input fullWidth select size="small" defaultValue="all">
+        <Input
+          fullWidth
+          select
+          size="small"
+          defaultValue="all"
+          value={props.district}
+          onChange={(e) => props.setDistrict(e.target.value)}
+        >
           {DistrictList.map((district) => (
             <MenuItem
               key={district.value}
@@ -219,7 +216,14 @@ const FilterMenu: React.FC<FilterMenuProps> = (props) => {
         <Typography fontSize={14} variant="h6">
           Trường học
         </Typography>
-        <Input fullWidth select size="small" defaultValue="all">
+        <Input
+          fullWidth
+          select
+          size="small"
+          defaultValue="all"
+          value={props.university}
+          onChange={(e) => props.setUniversity(e.target.value)}
+        >
           {UniversityList.map((university) => (
             <MenuItem
               key={university.value}
@@ -240,8 +244,7 @@ const FilterMenu: React.FC<FilterMenuProps> = (props) => {
         </Typography>
         <Paper
           sx={{
-            display: selectedTags.length ? 'flex' : 'none',
-            justifyContent: 'center',
+            display: props.selectedTags.length ? 'flex' : 'none',
             flexWrap: 'wrap',
             listStyle: 'none',
             border: '1px solid #e2e8f0',
@@ -250,9 +253,15 @@ const FilterMenu: React.FC<FilterMenuProps> = (props) => {
           }}
           component="ul"
         >
-          {selectedTags.map((tag) => {
+          {props.selectedTags.map((tag) => {
             return (
-              <ListItem key={tag.id}>
+              <ListItem
+                key={tag.id}
+                sx={{
+                  width: 'fit-content',
+                  p: 1,
+                }}
+              >
                 <Chip
                   label={tag.label}
                   variant="outlined"
@@ -265,7 +274,7 @@ const FilterMenu: React.FC<FilterMenuProps> = (props) => {
           })}
         </Paper>
         <Stack direction="row" flexWrap="wrap" mt={1}>
-          {tags.map((tag) => (
+          {props.tags.map((tag) => (
             <Button
               onClick={handleAdd(tag)}
               key={tag.id}

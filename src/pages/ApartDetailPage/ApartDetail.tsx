@@ -2,8 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   Avatar,
   Box,
+  Chip,
   Container,
   Grid,
+  ListItem,
+  Paper,
   Rating,
   Stack,
   SvgIcon,
@@ -18,25 +21,20 @@ import './apart-detail.css';
 import { Star } from '@mui/icons-material';
 import { deepPurple, yellow } from '@mui/material/colors';
 import { Input } from '../LoginPage/styled';
-import { useNavigate, useParams } from 'react-router-dom';
-import useAuth from '../../hook/useAuth';
+import { useParams } from 'react-router-dom';
 import { ApartDetailModel } from '../../model/ApartDetailModel';
 import useScreenState from '../../hook/useScreenState';
 import { getApartDetail } from '../../api/service';
 import { numberWithCommas } from '../../utils/utils';
 import AppLoading from '../../components/AppLoading/AppLoading';
+import { tagsList } from '../HomePage/HomePage';
 
 const ApartDetail: React.FC = () => {
   const params = useParams();
-  const navigate = useNavigate();
-  const auth = useAuth();
-  const user = auth.user;
   const [apartDetail, setApartDetail] = useState<ApartDetailModel>();
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState<string>('');
   const [rating, setRating] = useState<number | null | undefined>(null);
   const [needRefresh, setNeedRefresh] = useState(false);
-  const [canEdit, setCanEdit] = useState(false);
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const { setLoading, loading, error, setError } = useScreenState();
 
   const loadApartDetailPageData = async () => {
@@ -45,16 +43,9 @@ const ApartDetail: React.FC = () => {
       const res = await getApartDetail(Number(params.apartId));
       console.log(res);
       if (res.status === 200) {
-        const newImageData = res.data.image.map((item) => {
-          return item;
-        });
         setApartDetail({
           ...res.data,
-          image: [...newImageData],
         });
-        if (res.data?.creator?.email === user?.email) {
-          setCanEdit(true);
-        }
       }
     } catch (e: any) {
       console.log(e?.response?.data?.message);
@@ -110,7 +101,7 @@ const ApartDetail: React.FC = () => {
               <Grid item xs={4}>
                 <Stack direction="row" justifyContent="space-between">
                   <Typography variant="h6" component="div">
-                    Area
+                    Diện tích
                   </Typography>
                   <Typography variant="h6" component="div">
                     {apartDetail?.area} m2
@@ -119,7 +110,7 @@ const ApartDetail: React.FC = () => {
 
                 <Stack mt={3} direction="row" justifyContent="space-between">
                   <Typography variant="h6" component="div">
-                    Price
+                    Giá
                   </Typography>
                   <Typography variant="h6" component="div">
                     {numberWithCommas(Number(apartDetail?.price))} VND
@@ -128,7 +119,7 @@ const ApartDetail: React.FC = () => {
 
                 <Stack mt={3} direction="row" justifyContent="space-between">
                   <Typography variant="h6" component="div">
-                    Address
+                    Địa chỉ
                   </Typography>
                   <Typography variant="h6" component="div">
                     {apartDetail?.address}
@@ -159,11 +150,48 @@ const ApartDetail: React.FC = () => {
 
             <Box mt={3}>
               <Typography variant="h6" component="div">
-                Description
+                Mô tả
               </Typography>
               <Typography variant="body1" component="div">
                 {apartDetail?.detail}
               </Typography>
+            </Box>
+
+            <Box mt={3}>
+              <Typography variant="h6" component="div">
+                Tags
+              </Typography>
+              <Paper
+                sx={{
+                  display: apartDetail?.tags.length ? 'flex' : 'none',
+                  flexWrap: 'wrap',
+                  listStyle: 'none',
+                  border: '1px solid #e2e8f0',
+                  p: '16px 4px',
+                  m: '16px 0 0',
+                  width: 'fit-content',
+                }}
+                component="ul"
+              >
+                {apartDetail?.tags.map((tag) => {
+                  return (
+                    <ListItem
+                      key={tag}
+                      sx={{
+                        width: 'fit-content',
+                        p: 1,
+                      }}
+                    >
+                      <Chip
+                        label={tagsList.find((item) => item.id === tag)?.label}
+                        variant="outlined"
+                        size="small"
+                        color="secondary"
+                      />
+                    </ListItem>
+                  );
+                })}
+              </Paper>
             </Box>
           </Box>
 
@@ -175,10 +203,12 @@ const ApartDetail: React.FC = () => {
               <Box flexGrow={1}>
                 <Input
                   size="small"
-                  // fullWidth
-                  label="Comment"
+                  fullWidth
+                  label="Đánh giá"
                   multiline
                   maxRows={3}
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
                 />
                 <Rating readOnly />
               </Box>
@@ -193,7 +223,7 @@ const ApartDetail: React.FC = () => {
                   variant="h6"
                   component="div"
                 >
-                  Comment
+                  Đánh giá
                 </Typography>
                 <Typography
                   p={1}
@@ -318,7 +348,7 @@ const ApartDetail: React.FC = () => {
             }}
           >
             <Typography textAlign="center" variant="h6" component="div">
-              Landlord
+              Chủ nhà
             </Typography>
             <Stack alignItems="center">
               <Avatar sx={{ width: 40, height: 40, bgcolor: deepPurple[500] }}>
@@ -337,7 +367,7 @@ const ApartDetail: React.FC = () => {
                 Email
               </Typography>
               <Typography fontSize={14} variant="h6" component="div">
-                {apartDetail?.creator?.email || 'No information'}
+                {apartDetail?.creator?.email || 'Không có'}
               </Typography>
             </Stack>
             <Stack
@@ -346,10 +376,10 @@ const ApartDetail: React.FC = () => {
               justifyContent="space-between"
             >
               <Typography fontSize={14} variant="h6" component="div">
-                Phone
+                SĐT
               </Typography>
               <Typography fontSize={14} variant="h6" component="div">
-                {apartDetail?.creator?.phone || 'No information'}
+                {apartDetail?.creator?.phone || 'Không có'}
               </Typography>
             </Stack>
           </Stack>
